@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build Json2ArchPkgBuild/" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+    <module name="Json2ArchPkgBuild" />
+    <working_directory value="$PROJECT_DIR$" />
+    <go_parameters value="-i" />
+    <parameters value="-example" />
+    <kind value="DIRECTORY" />
+    <filePath value="$PROJECT_DIR$/main.go" />
+    <directory value="$PROJECT_DIR$" />
+    <method v="2" />
+  </configuration>
+</component>
