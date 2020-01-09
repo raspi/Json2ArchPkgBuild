@@ -23,7 +23,7 @@ default: build
 build:
 	@echo "GO BUILD..."
 	@CGO_ENABLED=0 go build $(LDFLAGS) -v -o ./bin/${APPNAME} .
-	@./bin/${APPNAME} -example > example.json
+	@./bin/${APPNAME} -example > example/example.json
 
 linux-build:
 	@for arch in $(LINUX_ARCHS); do \
