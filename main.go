@@ -128,5 +128,5 @@ func main() {
 		os.Exit(1)
 	}
 
-	_, _ = fmt.Fprintf(os.Stdout, `%s`, tpl)
+	_, _ = fmt.Fprint(os.Stdout, tpl)
 }
