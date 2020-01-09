@@ -83,7 +83,7 @@ copycommon:
 	@mkdir "$(TMPDIR)/bin"
 	@cp -v LICENSE "$(TMPDIR)"
 	@cp -v README.md "$(TMPDIR)"
-	@cp -v example.json "$(TMPDIR)"
+	#@cp -v example/example.json "$(TMPDIR)"
 
 # Move all to temporary directory and compress with common files
 tar-everything: copycommon
