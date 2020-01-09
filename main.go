@@ -27,18 +27,18 @@ func main() {
 	cmdTestArg := flag.String(`test`, ``, `test script file path`)
 
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stdout, `json2archpkgbuild - convert JSON to Arch Linux PKGBUILD - %s (%s)`+"\n", VERSION, BUILDDATE)
-		fmt.Fprintf(os.Stdout, `(c) %s 2020- - <URL: %s >`+"\n", AUTHOR, HOMEPAGE)
-		fmt.Fprintln(os.Stdout, `Parameters:`)
+		_, _ = fmt.Fprintf(os.Stdout, `json2archpkgbuild - convert JSON to Arch Linux PKGBUILD - %s (%s)`+"\n", VERSION, BUILDDATE)
+		_, _ = fmt.Fprintf(os.Stdout, `(c) %s 2020- - <URL: %s >`+"\n", AUTHOR, HOMEPAGE)
+		_, _ = fmt.Fprintln(os.Stdout, `Parameters:`)
 
 		flag.VisitAll(func(f *flag.Flag) {
-			fmt.Fprintf(os.Stdout, "  -%s\n      %s (default: %q)\n", f.Name, f.Usage, f.DefValue)
+			_, _ = fmt.Fprintf(os.Stdout, "  -%s\n      %s (default: %q)\n", f.Name, f.Usage, f.DefValue)
 		})
 
-		fmt.Fprintln(os.Stdout, `Examples:`)
-		fmt.Fprintf(os.Stdout, `  %s <file.json>`+"\n", os.Args[0])
-		fmt.Fprintf(os.Stdout, `  %s -example`+"\n", os.Args[0])
-		fmt.Fprintf(os.Stdout, `  %s -install install.sh app.json`+"\n", os.Args[0])
+		_, _ = fmt.Fprintln(os.Stdout, `Examples:`)
+		_, _ = fmt.Fprintf(os.Stdout, `  %s <file.json>`+"\n", os.Args[0])
+		_, _ = fmt.Fprintf(os.Stdout, `  %s -example`+"\n", os.Args[0])
+		_, _ = fmt.Fprintf(os.Stdout, `  %s -install install.sh app.json`+"\n", os.Args[0])
 	}
 
 	flag.Parse()
@@ -49,17 +49,17 @@ func main() {
 
 		b, err := json.MarshalIndent(&exampletpl, ``, `  `)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, `error: %v`, err)
+			_, _ = fmt.Fprintf(os.Stderr, `error: %v`, err)
 			os.Exit(1)
 		}
 
-		fmt.Fprint(os.Stdout, string(b))
+		_, _ = fmt.Fprint(os.Stdout, string(b))
 
 		os.Exit(0)
 	}
 
 	if flag.NArg() == 0 {
-		fmt.Fprintln(os.Stdout, `See -h for help`)
+		_, _ = fmt.Fprintln(os.Stdout, `See -h for help`)
 		os.Exit(0)
 	}
 
@@ -67,20 +67,20 @@ func main() {
 
 	b, err := ioutil.ReadFile(fname)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, `error: %v`, err)
+		_, _ = fmt.Fprintf(os.Stderr, `error: %v`, err)
 		os.Exit(1)
 	}
 
 	tpl, err := PKGBUILD.FromJson(b)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, `error: %v`, err)
+		_, _ = fmt.Fprintf(os.Stderr, `error: %v`, err)
 		os.Exit(1)
 	}
 
 	if *cmdInstallArg != `` {
 		tpl.Commands.Install, err = PKGBUILD.GetLinesFromFile(*cmdInstallArg)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, `error: %v`, err)
+			_, _ = fmt.Fprintf(os.Stderr, `error: %v`, err)
 			os.Exit(1)
 		}
 	}
@@ -88,7 +88,7 @@ func main() {
 	if *cmdPrepareArg != `` {
 		tpl.Commands.Prepare, err = PKGBUILD.GetLinesFromFile(*cmdPrepareArg)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, `error: %v`, err)
+			_, _ = fmt.Fprintf(os.Stderr, `error: %v`, err)
 			os.Exit(1)
 		}
 	}
@@ -96,7 +96,7 @@ func main() {
 	if *cmdBuildArg != `` {
 		tpl.Commands.Build, err = PKGBUILD.GetLinesFromFile(*cmdBuildArg)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, `error: %v`, err)
+			_, _ = fmt.Fprintf(os.Stderr, `error: %v`, err)
 			os.Exit(1)
 		}
 	}
@@ -104,7 +104,7 @@ func main() {
 	if *cmdTestArg != `` {
 		tpl.Commands.Test, err = PKGBUILD.GetLinesFromFile(*cmdTestArg)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, `error: %v`, err)
+			_, _ = fmt.Fprintf(os.Stderr, `error: %v`, err)
 			os.Exit(1)
 		}
 	}
@@ -115,13 +115,13 @@ func main() {
 
 	errs := tpl.Validate()
 	if errs != nil {
-		fmt.Fprintf(os.Stderr, `error:`+"\n")
+		_, _ = fmt.Fprintf(os.Stderr, `error:`+"\n")
 		for _, e := range errs {
-			fmt.Fprintf(os.Stderr, `  - %v`+"\n", e)
+			_, _ = fmt.Fprintf(os.Stderr, `  - %v`+"\n", e)
 		}
 
 		os.Exit(1)
 	}
 
-	fmt.Fprintf(os.Stdout, `%s`, tpl)
+	_, _ = fmt.Fprintf(os.Stdout, `%s`, tpl)
 }
