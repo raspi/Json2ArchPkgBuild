@@ -20,7 +20,7 @@ func main() {
 	generateArg := flag.Bool(`example`, false, `generate example JSON template`)
 
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stdout, `json2archpkgbuild %s (%s)`+"\n", VERSION, BUILDDATE)
+		fmt.Fprintf(os.Stdout, `json2archpkgbuild - convert JSON to Arch Linux PKGBUILD - %s (%s)`+"\n", VERSION, BUILDDATE)
 		fmt.Fprintf(os.Stdout, `(c) %s 2020- - <URL: %s >`+"\n", AUTHOR, HOMEPAGE)
 		fmt.Fprintln(os.Stdout, `Examples:`)
 		fmt.Fprintf(os.Stdout, `  %s <file.json>   -- Print PKGBUILD from JSON file`+"\n", os.Args[0])
