@@ -18,6 +18,10 @@ const HOMEPAGE = `https://github.com/raspi/Json2ArchPkgBuild`
 
 func main() {
 	generateArg := flag.Bool(`example`, false, `generate example JSON template`)
+	cmdInstallArg := flag.String(`install`, ``, `install script file path`)
+	cmdPrepareArg := flag.String(`prepare`, ``, `prepare script file path`)
+	cmdBuildArg := flag.String(`build`, ``, `build script file path`)
+	cmdTestArg := flag.String(`test`, ``, `test script file path`)
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stdout, `json2archpkgbuild - convert JSON to Arch Linux PKGBUILD - %s (%s)`+"\n", VERSION, BUILDDATE)
@@ -67,6 +71,38 @@ func main() {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, `error: %v`, err)
 		os.Exit(1)
+	}
+
+	if *cmdInstallArg != `` {
+		tpl.Commands.Install, err = PKGBUILD.GetLinesFromFile(*cmdInstallArg)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, `error: %v`, err)
+			os.Exit(1)
+		}
+	}
+
+	if *cmdPrepareArg != `` {
+		tpl.Commands.Prepare, err = PKGBUILD.GetLinesFromFile(*cmdPrepareArg)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, `error: %v`, err)
+			os.Exit(1)
+		}
+	}
+
+	if *cmdBuildArg != `` {
+		tpl.Commands.Build, err = PKGBUILD.GetLinesFromFile(*cmdBuildArg)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, `error: %v`, err)
+			os.Exit(1)
+		}
+	}
+
+	if *cmdTestArg != `` {
+		tpl.Commands.Test, err = PKGBUILD.GetLinesFromFile(*cmdTestArg)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, `error: %v`, err)
+			os.Exit(1)
+		}
 	}
 
 	errs := tpl.Validate()
