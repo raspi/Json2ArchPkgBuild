@@ -33,8 +33,9 @@ func main() {
 		})
 
 		fmt.Fprintln(os.Stdout, `Examples:`)
-		fmt.Fprintf(os.Stdout, `  %s <file.json>   -- Print PKGBUILD from JSON file`+"\n", os.Args[0])
-		fmt.Fprintf(os.Stdout, `  %s -example      -- Print out example JSON`+"\n", os.Args[0])
+		fmt.Fprintf(os.Stdout, `  %s <file.json>`+"\n", os.Args[0])
+		fmt.Fprintf(os.Stdout, `  %s -example`+"\n", os.Args[0])
+		fmt.Fprintf(os.Stdout, `  %s -install install.sh app.json`+"\n", os.Args[0])
 	}
 
 	flag.Parse()
