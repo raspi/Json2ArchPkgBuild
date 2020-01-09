@@ -18,6 +18,7 @@ const HOMEPAGE = `https://github.com/raspi/Json2ArchPkgBuild`
 
 func main() {
 	generateArg := flag.Bool(`example`, false, `generate example JSON template`)
+
 	cmdInstallArg := flag.String(`install`, ``, `install script file path`)
 	cmdPrepareArg := flag.String(`prepare`, ``, `prepare script file path`)
 	cmdBuildArg := flag.String(`build`, ``, `build script file path`)
