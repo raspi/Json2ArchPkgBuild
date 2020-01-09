@@ -23,7 +23,11 @@ func main() {
 		fmt.Fprintf(os.Stdout, `json2archpkgbuild - convert JSON to Arch Linux PKGBUILD - %s (%s)`+"\n", VERSION, BUILDDATE)
 		fmt.Fprintf(os.Stdout, `(c) %s 2020- - <URL: %s >`+"\n", AUTHOR, HOMEPAGE)
 		fmt.Fprintln(os.Stdout, `Parameters:`)
-		fmt.Fprintln(os.Stdout, `  -example           Print example JSON to STDOUT`)
+
+		flag.VisitAll(func(f *flag.Flag) {
+			fmt.Fprintf(os.Stdout, "  -%s\n      %s (default: %q)\n", f.Name, f.Usage, f.DefValue)
+		})
+
 		fmt.Fprintln(os.Stdout, `Examples:`)
 		fmt.Fprintf(os.Stdout, `  %s <file.json>   -- Print PKGBUILD from JSON file`+"\n", os.Args[0])
 		fmt.Fprintf(os.Stdout, `  %s -example      -- Print out example JSON`+"\n", os.Args[0])
