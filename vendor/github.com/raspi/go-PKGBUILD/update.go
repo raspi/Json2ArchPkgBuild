@@ -106,3 +106,19 @@ func GetChecksumsFromFile(chtype checksumType, path string, prefix string, suffi
 
 	return f
 }
+
+// Read a file and split with new line separator
+func GetLinesFromFile(path string) (lines []string, err error) {
+	b, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	sc := bufio.NewScanner(bytes.NewReader(b))
+
+	for sc.Scan() {
+		lines = append(lines, sc.Text())
+	}
+
+	return lines, nil
+}
