@@ -110,6 +110,7 @@ func example() PKGBUILD.Template {
 	tpl.ShortDescription = `my example application`
 	tpl.URL = `https://github.com/examplerepo/exampleapp`
 	tpl.Install = `$pkgname.install`
+	tpl.PackageURLPrefix = `https://github.com/examplerepo/exampleapp/releases/download/$pkgver/`
 
 	return tpl
 }
