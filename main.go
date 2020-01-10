@@ -22,6 +22,7 @@ func main() {
 	nowEpochArg := flag.Bool(`now`, false, `use current time as reference $epoch`)
 	increaseReleaseArg := flag.Bool(`incr`, false, `increase $pkgrel`)
 
+	nameArg := flag.String(`name`, ``, `package name`)
 	versionArg := flag.String(`ver`, ``, `version`)
 	jsonArg := flag.String(`json`, ``, `output newly generated JSON to file`)
 
@@ -79,6 +80,14 @@ func main() {
 	if err != nil {
 		_, _ = fmt.Fprintf(os.Stderr, `error: %v`, err)
 		os.Exit(1)
+	}
+
+	if *nameArg != `` {
+		if len(tpl.Name) == 0 {
+			tpl.Name = append(tpl.Name, *nameArg)
+		} else {
+			tpl.Name[0] = *nameArg
+		}
 	}
 
 	if *versionArg != `` {
