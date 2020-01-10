@@ -3,11 +3,8 @@ package PKGBUILD
 import (
 	"bufio"
 	"bytes"
-	"fmt"
 	"io/ioutil"
-	"log"
 	"regexp"
-	"strings"
 )
 
 type checksumType uint8
@@ -43,34 +40,20 @@ func (ct checksumType) String() string {
 	}
 }
 
-const (
-	ReplaceFromChecksumFilename = `<FNAMEARCH>`
-)
-
 // Update checksums to file(s)
 // File must be in format
 // <checksum> <file path>
-// Filename in checksum file must be in format
-// something-linux-<ARCH>.something
-//
 // String ReplaceFromChecksumFilename is replaced with architecture name from checksum filename's architecture
-func GetChecksumsFromFile(chtype checksumType, path string, prefix string, suffix string) (f Files) {
+func GetChecksumsFromFile(chtype checksumType, path string, fn func(fpath string) (url string, arch string, alias string)) (f Files) {
 	f = make(Files)
+	lines, err := GetLinesFromFile(path)
 
-	sumsFile, err := ioutil.ReadFile(path)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
-	sc := bufio.NewScanner(bytes.NewReader(sumsFile))
-
-	for sc.Scan() {
-		line := sc.Text()
-		if !strings.Contains(line, `linux`) {
-			continue
-		}
-
-		checksumAndFilename := regexp.MustCompile(`([^\s]+)\s+([^\s]+)`)
+	for _, line := range lines {
+		checksumAndFilename := regexp.MustCompile(`^([^\s]+)\s+([^\s]+)$`)
 		matches := checksumAndFilename.FindStringSubmatch(line)
 		if matches == nil {
 			continue
@@ -79,29 +62,24 @@ func GetChecksumsFromFile(chtype checksumType, path string, prefix string, suffi
 		checksum := matches[1]
 		fname := matches[2]
 
-		cpuArchitecture := regexp.MustCompile(`linux-([^.]+)\.`)
-		cpuArchFromFilename := cpuArchitecture.FindStringSubmatch(fname)
+		url, arch, alias := fn(fname)
 
-		if cpuArchFromFilename == nil {
+		if url == `` {
 			continue
 		}
 
-		goarch := cpuArchFromFilename[1]
-		linuxarch, ok := GoArchToLinuxArch[goarch]
-		if !ok {
-			log.Fatalf(`architecture %v not found`, goarch)
+		newSource := Source{
+			URL: url,
+			Checksums: map[string]string{
+				chtype.String(): checksum,
+			},
 		}
 
-		newSuffix := strings.ReplaceAll(suffix, ReplaceFromChecksumFilename, goarch)
+		if alias != `` {
+			newSource.Alias = alias
+		}
 
-		f[linuxarch] = append(f[linuxarch],
-			Source{
-				URL: fmt.Sprintf(`%s%s`, prefix, newSuffix),
-				Checksums: map[string]string{
-					chtype.String(): checksum,
-				},
-			},
-		)
+		f[arch] = append(f[arch], newSource)
 	}
 
 	return f

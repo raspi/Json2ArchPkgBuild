@@ -1,4 +1,5 @@
 APPNAME?=json2archpkgbuild
+SOURCEURL ?= https://github.com/raspi/Json2ArchPkgBuild/releases/download/$$pkgver/
 
 # version from last tag
 VERSION := $(shell git describe --abbrev=0 --always --tags)
@@ -18,6 +19,8 @@ FREEBSD_ARCHS := amd64 arm
 NETBSD_ARCHS := amd64 arm
 OPENBSD_ARCHS := amd64 arm arm64
 
+CHECKSUMFILE := ${APPNAME}-${VERSION}.shasums
+
 default: build
 
 build:
@@ -27,7 +30,7 @@ build:
 
 # Update go module(s)
 modup:
-	@go get -u github.com/raspi/go-PKGBUILD@v0.0.2
+	@go get -u github.com/raspi/go-PKGBUILD@v0.0.4
 	@go mod tidy
 
 linux-build:
@@ -80,7 +83,7 @@ release-ldistros: ldistro-arch
 
 shasums:
 	@echo "Checksumming..."
-	@pushd "release/${VERSION}" && shasum -a 256 $(BUILDFILES) > ${APPNAME}-${VERSION}.shasums
+	@pushd "release/${VERSION}" && shasum -a 256 $(BUILDFILES) > ${CHECKSUMFILE}
 
 # Copy common files to release directory
 copycommon:
@@ -150,5 +153,10 @@ tar-everything: copycommon
 	  zip -9 -y -r "$(PWD)/release/${VERSION}/${APPNAME}-${VERSION}-windows-$$arch.zip" . ; \
 	  rm "$(TMPDIR)/bin/${APPNAME}.exe"; \
 	done
+
+ldistro-arch: build
+	pushd release/linux/arch && \
+	../../../bin/${APPNAME} -name ${APPNAME} -ver ${VERSION} -install install.sh -sums ../../${VERSION}/${CHECKSUMFILE} -fpre '${SOURCEURL}' package.json  > "$(PWD)/release/${VERSION}/${APPNAME}-${VERSION}-linux-Arch.PKGBUILD" && \
+	popd
 
 .PHONY: all clean test default

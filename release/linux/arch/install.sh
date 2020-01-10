@@ -1,0 +1,6 @@
+cd "$srcdir"
+install -Dm644 "LICENSE" -t "$pkgdir/usr/share/licenses/$pkgname"
+install -Dm644 "README.md" -t "$pkgdir/usr/share/doc/$pkgname"
+install -Dm644 "example/install.sh" -t "$pkgdir/usr/share/doc/$pkgname/example"
+install -Dm644 "example/example.json" -t "$pkgdir/usr/share/doc/$pkgname/example"
+install -Dm755 "bin/$pkgname" -t "$pkgdir/usr/bin"
