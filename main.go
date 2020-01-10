@@ -22,6 +22,8 @@ func main() {
 	nowEpochArg := flag.Bool(`now`, false, `use current time as reference $epoch`)
 	increaseReleaseArg := flag.Bool(`incr`, false, `increase $pkgrel`)
 
+	jsonArg := flag.String(`json`, ``, `output newly generated JSON to file`)
+
 	cmdInstallArg := flag.String(`install`, ``, `install script file path`)
 	cmdPrepareArg := flag.String(`prepare`, ``, `prepare script file path`)
 	cmdBuildArg := flag.String(`build`, ``, `build script file path`)
@@ -126,6 +128,23 @@ func main() {
 		}
 
 		os.Exit(1)
+	}
+
+	if *jsonArg != `` {
+		f, err := os.Create(*jsonArg)
+		if err != nil {
+			_, _ = fmt.Fprintf(os.Stderr, `error: %v`, err)
+			os.Exit(1)
+		}
+		defer f.Close()
+
+		jb, err := json.MarshalIndent(&tpl, ``, `  `)
+		if err != nil {
+			_, _ = fmt.Fprintf(os.Stderr, `error: %v`, err)
+			os.Exit(1)
+		}
+
+		f.Write(jb)
 	}
 
 	_, _ = fmt.Fprint(os.Stdout, tpl)
