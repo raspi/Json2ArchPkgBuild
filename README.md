@@ -18,6 +18,7 @@ Generate PKGBUILD
 
     ./json2archpkgbuild my-package.json > PKGBUILD
 
+See this project's [Makefile](Makefile) `ldistro-arch` for usage example.
 
 ## Example JSON
  
