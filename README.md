@@ -65,9 +65,9 @@ Inject `install.sh` file to output
 
     % json2archpkgbuild -install install.sh my-package.json > PKGBUILD
 
-Use checksums as source files
+Use checksums as source files (`pkg_url_prefix` is used for prefixing the files)
 
-    % json2archpkgbuild -sums cheksums.sha256 my-package.json > PKGBUILD
+    % json2archpkgbuild -sums checksums.sha256 my-package.json > PKGBUILD
 
 
 ## Example JSON
