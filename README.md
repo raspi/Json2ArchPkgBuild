@@ -5,7 +5,7 @@
 # Json2ArchPkgBuild
 Generate Arch Linux PKGBUILD files from JSON.
 
-Uses https://github.com/raspi/go-PKGBUILD as library
+Uses https://github.com/raspi/go-PKGBUILD as library. See `man PKGBUILD`.
 
 ```
 json2archpkgbuild - convert JSON to Arch Linux PKGBUILD - v0.0.4 (2020-01-10T05:09:05+02:00)
@@ -40,21 +40,39 @@ Examples:
   ./json2archpkgbuild -example
   ./json2archpkgbuild -install install.sh app.json
 ```
+## Why?
+
+So you don't need to learn PKGBUILD file syntax. JSON is also easier to update with different tools.
 
 ## Example
 
+See [Makefile](Makefile) `ldistro-arch` and [release/linux/arch](release/linux/arch) for usage example.
+
 Generate example JSON which you can use to for generating PKGBUILD package:
 
-    ./json2archpkgbuild -example > my-package.json
+    % json2archpkgbuild -example > my-package.json
     $EDITOR my-package.json 
 
 Generate PKGBUILD    
 
-    ./json2archpkgbuild my-package.json > PKGBUILD
+    % json2archpkgbuild my-package.json > PKGBUILD
 
-See this project's [Makefile](Makefile) `ldistro-arch` and [release/linux/arch](release/linux/arch) for usage example.
+Increase `$pkgrel` and get updated JSON file
+
+    % json2archpkgbuild -incr -json updated-package.json my-package.json > PKGBUILD
+
+Inject `install.sh` file to output
+
+    % json2archpkgbuild -install install.sh my-package.json > PKGBUILD
+
+Use checksums as source files
+
+    % json2archpkgbuild -sums cheksums.sha256 my-package.json > PKGBUILD
+
 
 ## Example JSON
+ 
+ Use the `-example` parameter as this might be old.
  
  ```json
  {
