@@ -1,3 +1,7 @@
+![GitHub All Releases](https://img.shields.io/github/downloads/raspi/Json2ArchPkgBuild/total?style=for-the-badge)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/raspi/Json2ArchPkgBuild?style=for-the-badge)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/raspi/Json2ArchPkgBuild?style=for-the-badge)
+
 # Json2ArchPkgBuild
 Generate Arch Linux PKGBUILD files from JSON.
 
