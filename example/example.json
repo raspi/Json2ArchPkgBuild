@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "ver": "v1.0.0"
+    "_ver": "v1.0.0"
   },
   "maintainer": "John Doe",
   "maintainer_email": "jd@example.org",
@@ -15,8 +15,7 @@
     "Apache 2.0"
   ],
   "url": "https://github.com/examplerepo/exampleapp",
-  "changelog_file": "",
-  "groups": null,
+  "pkg_url_prefix": "https://github.com/examplerepo/exampleapp/releases/download/$pkgver/",
   "dependencies": {
     "": {
       "packages": [
@@ -43,7 +42,6 @@
       }
     ]
   },
-  "provides": null,
   "options": [
     "!strip",
     "docs",
@@ -100,5 +98,21 @@
       }
     ]
   },
-  "commands": {}
+  "commands": {
+    "prepare": [
+      "echo foo \u003e\u003e main.c"
+    ],
+    "build": [
+      "make"
+    ],
+    "test": [
+      "make test"
+    ],
+    "install": [
+      "cd \"$srcdir\"",
+      "install -Dm644 \"LICENSE\" -t \"$pkgdir/usr/share/licenses/$pkgname\"",
+      "install -Dm644 \"README.md\" -t \"$pkgdir/usr/share/doc/$pkgname\"",
+      "install -Dm755 \"bin/$pkgname\" -t \"$pkgdir/usr/bin\""
+    ]
+  }
 }
