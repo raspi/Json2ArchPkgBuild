@@ -22,6 +22,7 @@ func main() {
 	nowEpochArg := flag.Bool(`now`, false, `use current time as reference $epoch`)
 	increaseReleaseArg := flag.Bool(`incr`, false, `increase $pkgrel`)
 
+	versionArg := flag.String(`ver`, ``, `version`)
 	jsonArg := flag.String(`json`, ``, `output newly generated JSON to file`)
 
 	cmdInstallArg := flag.String(`install`, ``, `install script file path`)
@@ -78,6 +79,10 @@ func main() {
 	if err != nil {
 		_, _ = fmt.Fprintf(os.Stderr, `error: %v`, err)
 		os.Exit(1)
+	}
+
+	if *versionArg != `` {
+		tpl.Version = *versionArg
 	}
 
 	if *cmdInstallArg != `` {
