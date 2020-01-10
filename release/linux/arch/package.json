@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "ver": "v1.0.0"
+    "_ver": "v1.0.0"
   },
   "maintainer": "Pekka Järvinen",
   "maintainer_email": "-",
@@ -15,6 +15,7 @@
     "Apache 2.0"
   ],
   "url": "https://github.com/raspi/Json2ArchPkgBuild",
+  "pkg_url_prefix": "https://github.com/raspi/Json2ArchPkgBuild/releases/download/$pkgver/",
   "files": {},
   "commands": {
     "install": [

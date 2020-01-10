@@ -1,5 +1,4 @@
 APPNAME?=json2archpkgbuild
-SOURCEURL ?= https://github.com/raspi/Json2ArchPkgBuild/releases/download/$$pkgver/
 
 # version from last tag
 VERSION := $(shell git describe --abbrev=0 --always --tags)
@@ -30,7 +29,8 @@ build:
 
 # Update go module(s)
 modup:
-	@go get -u github.com/raspi/go-PKGBUILD@v0.0.4
+	@go get -u github.com/raspi/go-PKGBUILD@v0.0.5
+	@go mod vendor
 	@go mod tidy
 
 linux-build:
@@ -156,7 +156,7 @@ tar-everything: copycommon
 
 ldistro-arch: build
 	pushd release/linux/arch && \
-	../../../bin/${APPNAME} -name ${APPNAME} -ver ${VERSION} -install install.sh -sums ../../${VERSION}/${CHECKSUMFILE} -fpre '${SOURCEURL}' package.json  > "$(PWD)/release/${VERSION}/${APPNAME}-${VERSION}-linux-Arch.PKGBUILD" && \
+	../../../bin/${APPNAME} -name ${APPNAME} -ver ${VERSION} -install install.sh -sums ../../${VERSION}/${CHECKSUMFILE} package.json  > "$(PWD)/release/${VERSION}/${APPNAME}-${VERSION}-linux-Arch.PKGBUILD" && \
 	popd
 
 .PHONY: all clean test default

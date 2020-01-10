@@ -7,9 +7,6 @@ import (
 	"github.com/raspi/go-PKGBUILD"
 	"io/ioutil"
 	"os"
-	"path"
-	"regexp"
-	"strings"
 	"time"
 )
 
@@ -36,8 +33,6 @@ func main() {
 
 	checksumFileArg := flag.String(`sums`, ``, `Use checksum file as reference`)
 	checksumTypeArg := flag.String(`t`, `sha256`, `Checksum file type (sha1, sha224, sha256, sha384, sha512, b2, md5)`)
-
-	fPrefixArg := flag.String(`fpre`, `https://github.com/examplerepo/exampleapp/releases/download/$pkgver/`, `prefix`)
 
 	flag.Usage = func() {
 		_, _ = fmt.Fprintf(os.Stdout, `json2archpkgbuild - convert JSON to Arch Linux PKGBUILD - %s (%s)`+"\n", VERSION, BUILDDATE)
@@ -165,34 +160,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		archRe := regexp.MustCompile(`linux-([^\.]+)\.`)
-
-		tpl.Files = PKGBUILD.GetChecksumsFromFile(ctype, *checksumFileArg, func(fpath string) (url, arch, alias string) {
-			fpath = strings.TrimLeft(fpath, `.`)
-			fpath = strings.TrimLeft(fpath, `/`)
-			filename := path.Base(fpath)
-
-			if !strings.Contains(filename, `linux`) {
-				return ``, ``, ``
-			}
-
-			match := archRe.FindStringSubmatch(filename)
-			if len(match) == 0 {
-				return ``, ``, ``
-			}
-
-			filename = strings.Replace(filename, tpl.Name[0], `$pkgname`, 1)
-			filename = strings.Replace(filename, tpl.Version, `$pkgver`, 1)
-
-			arch, ok := PKGBUILD.GoArchToLinuxArch[match[1]]
-			if !ok {
-				return ``, ``, ``
-			}
-
-			url = path.Join(*fPrefixArg, filename)
-
-			return url, arch, alias
-		})
+		tpl.Files = PKGBUILD.GetChecksumsFromFile(ctype, *checksumFileArg, tpl.DefaultChecksumFilesFunc)
 	}
 
 	errs := tpl.Validate()
