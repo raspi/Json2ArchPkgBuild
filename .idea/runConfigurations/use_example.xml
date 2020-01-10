@@ -3,7 +3,7 @@
     <module name="Json2ArchPkgBuild" />
     <working_directory value="$PROJECT_DIR$" />
     <go_parameters value="-i" />
-    <parameters value="-install example/install.sh example/example.json" />
+    <parameters value="-incr -install example/install.sh -json example/updated.json example/example.json" />
     <kind value="DIRECTORY" />
     <filePath value="$PROJECT_DIR$/main.go" />
     <directory value="$PROJECT_DIR$" />
