@@ -86,9 +86,11 @@ shasums:
 copycommon:
 	@echo "Copying common files to $(TMPDIR)"
 	@mkdir "$(TMPDIR)/bin"
+	@mkdir "$(TMPDIR)/example"
 	@cp -v LICENSE "$(TMPDIR)"
 	@cp -v README.md "$(TMPDIR)"
-	#@cp -v example/example.json "$(TMPDIR)"
+	@cp -v example/example.json "$(TMPDIR)/example"
+	@cp -v example/install.sh "$(TMPDIR)/example"
 
 # Move all to temporary directory and compress with common files
 tar-everything: copycommon
