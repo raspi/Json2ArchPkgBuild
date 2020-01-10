@@ -7,6 +7,40 @@ Generate Arch Linux PKGBUILD files from JSON.
 
 Uses https://github.com/raspi/go-PKGBUILD as library
 
+```
+json2archpkgbuild - convert JSON to Arch Linux PKGBUILD - v0.0.4 (2020-01-10T05:09:05+02:00)
+(c) Pekka Järvinen 2020- - <URL: https://github.com/raspi/Json2ArchPkgBuild >
+Parameters:
+  -build
+      build script file path (default: "")
+  -example
+      generate example JSON template (default: "false")
+  -incr
+      increase $pkgrel (default: "false")
+  -install
+      install script file path (default: "")
+  -json
+      output newly generated JSON to file (default: "")
+  -name
+      package name (default: "")
+  -now
+      use current time as reference $epoch (default: "false")
+  -prepare
+      prepare script file path (default: "")
+  -sums
+      Use checksum file as reference (default: "")
+  -t
+      Checksum file type (sha1, sha224, sha256, sha384, sha512, b2, md5) (default: "sha256")
+  -test
+      test script file path (default: "")
+  -ver
+      package version (default: "")
+Examples:
+  ./json2archpkgbuild <file.json>
+  ./json2archpkgbuild -example
+  ./json2archpkgbuild -install install.sh app.json
+```
+
 ## Example
 
 Generate example JSON which you can use to for generating PKGBUILD package:
