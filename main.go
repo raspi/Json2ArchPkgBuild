@@ -23,7 +23,7 @@ func main() {
 	increaseReleaseArg := flag.Bool(`incr`, false, `increase $pkgrel`)
 
 	nameArg := flag.String(`name`, ``, `package name`)
-	versionArg := flag.String(`ver`, ``, `version`)
+	versionArg := flag.String(`ver`, ``, `package version`)
 	jsonArg := flag.String(`json`, ``, `output newly generated JSON to file`)
 
 	cmdInstallArg := flag.String(`install`, ``, `install script file path`)
